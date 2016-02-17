@@ -1,0 +1,103 @@
+.TH cmd5checkpw 8
+.SH NAME
+cmd5checkpw \- check a cram-md5 authentication
+.SH SYNOPSIS
+.B cmd5checkpw
+.I subprogram
+[
+.I args ...
+]
+.SH DESCRIPTION
+.B cmd5checkpw
+reads descriptor 3 through end of file
+and then closes descriptor 3.
+There must be at most 512 bytes of data before end of file.
+.B cmd5checkpw
+is a 
+.B checkpassword
+complient interface for SMTP Authentication using
+login, plain, and cram-md5 authentication.
+
+The information supplied on descriptor 3
+is a login name terminated by \e0,
+a password or cram-md5 response terminated by \e0,
+and a cram-md5 challenge terminated by \e0.
+
+.B cmd5checkpw
+recalcuates a MD5 digest using the provided plain challenge
+and the passwords from
+.IR /var/qmail/users/authuser 
+and compares it with response (2nd parameter). If they are the same
+then
+.B cmd5checkpw
+uses
+.B execvp
+to run
+.B subprogram
+with the given arguments.
+If they differ then it returns -1.
+
+If the MD5 digest and the response differ,
+.B cmd5checkpw
+exits 1.
+If
+.B cmd5checkpw
+is misused,
+it may instead exit 2.
+If there is a temporary problem checking the password,
+.B cmd5checkpw
+exits 111.
+
+.B cmd5checkpw 
+additionally compares the supplied password with the password in the 
+.IR /var/qmail/user/authuser 
+file. Thus it can be used as a plain-text checkpassword
+for PLAIN & LOGIN authtype (but we recommend using a crypted version for
+security reasons). To use it, simply provide it with clear text password
+as a response. Beware, that 
+.B cmd5checkpw 
+needs read-only access to that file.
+
+.SH "CHECKPASSWORD-COMPATIBLE TOOLS"
+.B cmd5checkpw  
+conforms in the version to the
+.B checkpassword 
+interface.
+
+.SH "PROCESS-STATE CHANGES"
+Before invoking
+.BR subprogram ,
+.B cmd5checkpw
+does not set up anything. Just because users from  /var/qmail/user/authuser does not
+have to exist in the system so setting their uid,gid etc is not possible.
+
+Other
+.BR checkpassword -compatible
+tools may make different changes to the process state.
+These effects must be documented;
+applications will differ in their requirements.
+
+.SH "FILES"
+.IR /var/qmail/users/authuser 
+- this file contains pairs of logins and clear text passwords
+separated by ":". It looks like this:
+
+login1:password1
+.br
+login2:password2
+
+Best way to protect it is to make it readable only for one specific user
+different than you normal system users and make cmd5checkpw suid that user.
+
+.SH "VERSION"
+This documentation describes
+.B cmd5checkpw
+version 0.30.
+See
+.B http://www.elysium.pl/members/brush/cmd5checkpw/
+and
+.B http://www.fehcom.de/qmail.html
+for updates.
+
+.SH "SEE ALSO"
+checkpassword(8)

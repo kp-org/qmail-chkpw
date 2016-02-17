@@ -1,0 +1,64 @@
+.TH qmail-chkpw 8 "" openqmail
+.SH NAME
+qmail-chkpw \- check a plain, login and cram-md5 SMTP authentication
+.SH SYNOPSIS
+.B qmail-chkpw
+[
+.I -e
+|
+.I subprogram
+] [
+.I args ...
+]
+.SH DESCRIPTION
+.B qmail-chkpw
+is a 
+.B checkpassword
+complient interface for SMTP Authentication using
+login, plain and cram-md5 authentication. It is
+based on
+.B cmd5checkpw-0.30
+, but needs and uses encrypted passwords for AUTH PLAIN and 
+AUTH LOGIN. The use of CRAM-MD5 still requires the password in clear
+format. Beware that 
+.B qmail-chkpw 
+needs read-only access to the password file.
+.SH OPTIONS
+.TP
+.B -e
+if 
+.B qmail-chkpw 
+is invoked with the
+.B -e
+option instead of
+.B subprogram 
+it changes it's behavior. It reads from standard input and prints the
+given input as encrypted value to stdout. Typically this is to encrypt
+a password.
+.SH FILES
+.IR QMAILHOME/users/smtpauth
+- this file contains pairs of logins and encrypted passwords
+separated by ":". It looks like this:
+
+login1:<encrypted password>
+.br
+login2:<encrypted password>
+.br
+login3:<plain text password>
+
+Best way to protect it is to make it readable only for one specific user
+different than your normal system users and make qmail-chkpw suid that user.
+.SH RESTRICTIONS
+.B qmail-chkpw
+reads the file
+.IR QMAILHOME/users/smtpauth 
+until the first match of a user name. Without a match the authentication fails.
+The user names should be unique, means that a user name can be used for CRAM-MD5
+.B or
+one of the other two authentication methods.
+.SH VERSION
+This documentation is about
+.B qmail-chkpw
+version 0.2.
+.SH SEE ALSO
+checkpassword(8), cmd5checkpw(8)

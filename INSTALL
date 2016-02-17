@@ -1,0 +1,23 @@
+Like any other piece of software (and information generally),
+qmail-chkpw comes with NO WARRANTY.
+
+How to install:
+
+ 1. Edit conf-qmail, conf-man and include path to (e/net)qmail and your man 
+    pages in here. The default pathes points to /var/qmail.
+
+ 2. Compile the program.
+       % make
+
+ 3. Install the program and man pages:
+       % make setup
+
+    Now you should have
+
+    - qmail-chkpw binary in your qmail-'/bin' directory.
+    - man pages (8) in qmail-'/man/man8'
+    - a sample of 'smtpauth' copied to your qmail-'/users' directory 
+
+    Note: owner of qmail-chkpw have to be qmaild or it have to be made sticky!
+
+ 4. Edit your run file for use with qmail-chkpw

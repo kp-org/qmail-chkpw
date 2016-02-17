@@ -1,0 +1,34 @@
+20160130: qmail-chkpw 0.2.1
+          - added '#include <crypt.h>' for linux
+
+20160118: qmail-chkpw 0.2
+          - password have to repeated with '-e' option
+          - fixed compiler warnings
+          - corrected config file name in man page
+
+20151120: qmail-chkpw 0.1
+          - login & plain: passwords have to be stored encrypted now
+          - added option "-e" to encrypt passwords
+          - fixed global.h: definitions of <inttypes.h> are used for 'UINT4'  
+
+------------------------------------------------------------------------------
+0.20
+- initial public release
+
+0.21
+- accidentaly a debug version left my computer. It reads descriptor 0
+instead of 3. It's fixed now.
+
+0.22
+- fix for a crash when user is not found in the passwd database. 
+- Support for PLAIN/LOGIN auth (so you can use cmd5checkpw for both CRAM-MD5
+and PLAIN/LOGIN). Changes contributed by Javier Kohen <jkohen@tough.com>.
+
+0.23
+- Installation customized for Qmail (Erwin Hoffmann - www.fehcom.de)
+
+0.30
+- Interface corresponds now to checkpassword:
+  login & plain: userid0passwd0
+  cram-md5: userid0passwd0challenge
+  userid and passwd are base64 encoded; challenge is plain.

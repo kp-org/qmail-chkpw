@@ -1,0 +1,38 @@
+qmail-chkpw 0.2.1
+20160130 - @(Free)BSD users: use gcc!
+Kai Peter (kp@openqmail.org)
+
+qmail-chkpw 0.2
+20160118
+Kai Peter (kp@dyndn.es)
+
+qmail-chkpw 0.1
+20141015
+Kai Peter (kp@dyndn.es)
+
+------------------------------------------------------------------------
+cmd5checkpw 0.30
+20030918
+Erwin Hoffmann (feh@fehcom.de)
+http://www.fehcom.de/qmail.html
+
+cmd5checkpw 0.20, beta.
+20000130
+Krzysztof Dabrowski aka Brush/Elysium
+http://www.elysium.pl/members/brush/cmd5checkpw/
+
+Based on checkpassword by D. J. Bernstein, djb@pobox.com
+http://pobox.com/~djb/checkpwd.html
+
+cmd5checkpw provides a simple, uniform authorization solution for all
+application that use CRAM-MD5 auth type. It actually conforms with
+checkpassword's interface even for CRAM-MD5.
+
+Read included man page to learn how does it work.
+
+INSTALL says how to set it up.
+
+CREDITS contains information about who did what.
+
+The cmd5checkpw code is in the public domain except for files with
+different license inside them.

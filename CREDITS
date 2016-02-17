@@ -1,0 +1,10 @@
+Dan Bernstein - did the original checkpassword
+Jedi/Sector One - did a plain text version of checkpassword. I borrowed few
+line of code from him.
+RSA Labs. - did the md5c.c and hold copyrights over it (read the source)
+RFC 2104 authors - provided sample implementation of HMAC which i have used.
+Erwin Hoffmann - changed order of auth parameters to more conformity
+GNU Foundation - crypt functionality and code
+
+Gentoo Foundation - for their great distribution, especially portage, eudev 
+and openrc (includes to not adapt systemd overall without any thoughs)

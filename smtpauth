@@ -1,0 +1,6 @@
+# This file is used by qmail-chkpw
+#
+# Format of this file is one user:pass per line (without empty lines)
+# Like so...
+# j0edogger:sm311yf33t
+# j1mdogger:$6$ZkiGKjCK$VDvQqJ04j8DwZIoK.C0lbj/QRgpjsM8En4P4x8mTPgYWfnR0CVOrCE7XOvqPeEmXe38LSk/wloZa0Y407L5Ve/

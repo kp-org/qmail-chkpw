@@ -6,6 +6,8 @@ qmail-chkpw \- check a plain, login and cram-md5 SMTP authentication
 [
 .I -e
 |
+.I -r
+] | [
 .I subprogram
 ] [
 .I args ...
@@ -35,6 +37,10 @@ option instead of
 it changes it's behavior. It reads from standard input and prints the
 given input as encrypted value to stderr. Typically this is to encrypt
 a password.
+.TP 
+.B -r
+read a single string - usually a password - from stdin and encrypt it.
+
 .SH FILES
 .IR QMAILHOME/users/smtpauth
 - this file contains pairs of logins and encrypted passwords

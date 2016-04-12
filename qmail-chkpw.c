@@ -85,6 +85,7 @@ int main(int argc,char **argv)
 
   if (!argv[1]) _exit(2);
 
+  /* process the '-e' option */
   if(strcmp(argv[1],"-e") == 0) {
 // Debug:
 //    char s[1];
@@ -103,6 +104,35 @@ int main(int argc,char **argv)
       _exit(0);
   }
 
+  /* process the '-r' option (read from stdin) */
+  if(strcmp(argv[1],"-r") == 0) {
+    char buf[65];
+    char *input;
+    int pw;
+    int pwlen;
+//printf("bla\n");
+
+	for (;;) {
+	  do
+        pw = read(0,buf + pwlen,sizeof(buf) - pwlen);
+      while (( pw == -1)  && (errno == EINTR));
+      if (pw == -1) _exit(111);
+      if (pw == 0) break;
+      pwlen += pw;
+    }
+    close(0);
+	input = buf;
+	if (pwlen < 1) _exit(1);
+	input = buf;
+	strchr(input, '\n');
+//printf("In: %s",input);
+//printf("len: %i\n",pwlen);
+    input = doencrypt(input,1);
+    _exit(0);
+  }
+
+/* ********************************************************** */
+  /* check for input on fd3 */
   uplen = 0;
   for (;;) {
     do
@@ -126,11 +156,12 @@ int main(int argc,char **argv)
   clearpw=response; /* save original response unencrypted */
 
   /* some stuff for debug on command line */
+/*
   printf("Input: \n");
   printf("login: %s\n",login);
   printf("resp.: %s\n",response);
   printf("chall: %s\n\n",challenge);
-
+*/
   doencrypt(clearpw,0);		/* encrypt the response */
 
   accepted = doit(login,response,challenge);

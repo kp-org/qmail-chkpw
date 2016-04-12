@@ -6,7 +6,9 @@
 # check for header files
 CCOPTS=""
 echo -n "Checking for crypt.h ..."
-if [ -f /usr/include/crypt.h ] ; then CCOPTS="$CCOPTS -DHAS_CRYPT_H"
+T=$(find /usr/include -name crypt.h -print | head -1)
+if [ -n "$T" ] ; then CCOPTS="$CCOPTS -DHAS_CRYPT_H"
+#if [ -f /usr/include/crypt.h ] ; then CCOPTS="$CCOPTS -DHAS_CRYPT_H"
    else echo -n " not" ; fi
 echo " found!"
 

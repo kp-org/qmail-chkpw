@@ -3,7 +3,10 @@ obsolete
 main.*
 qmail-chkpw
 qmail-chkpw.8
-test_it
-*.patch
+testit.sh
 conf-cc
 conf-libs
+*.bck
+*.patch
+TODO
+qmail-chkpw-0.4.c

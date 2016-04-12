@@ -86,13 +86,21 @@ int main(int argc,char **argv)
   if (!argv[1]) _exit(2);
 
   if(strcmp(argv[1],"-e") == 0) {
+// Debug:
+//    char s[1];
+//    strncpy(s,argv[1],1);
+//    if(strncmp(s,"-",1) == 0) { puts("dddd"); }	/* Important: strcmp returns 1 on BSD but 0 on Linux */
+
     char *pw;
     char *newpw, *cmppw;
+
     newpw = strdup(getpass("   New password: "));
-	cmppw = strdup(getpass("Repeat password: "));
+    if(strlen(newpw) < 1) { puts("Empty password!"); _exit(111); }
+// todo: check password (min) lenght
+    cmppw = strdup(getpass("Repeat password: "));
     if (strcmp(newpw,cmppw) == 0) { pw = doencrypt(newpw,1); } 
-     else { printf("Passwords don't match!\n"); }
-    _exit(0);
+      else { printf("Passwords don't match!\n"); }
+      _exit(0);
   }
 
   uplen = 0;
@@ -132,6 +140,6 @@ int main(int argc,char **argv)
   for (i = 0;i < sizeof(up);++i) up[i] = 0;
 
   if (accepted)  _exit(1);
-	execvp(argv[1],argv + 1);
-	_exit(111);
+    execvp(argv[1],argv + 1);
+    _exit(111);
 }

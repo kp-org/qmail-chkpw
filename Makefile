@@ -1,4 +1,3 @@
-#
 # makefile for qmail-chkpw (checkpassword tool)
 #
 
@@ -10,7 +9,7 @@ MAKEFILE=Makefile
 OBJS=${SRCS:.c=.o}
 
 CC=gcc
-CFLAGS=-c `cat conf-libs` `cat conf-cc` -O3 #-lcrypt -O3 #-Wall
+CFLAGS=-c `cat conf-libs` `cat conf-cc` -O3   #-Wall
 LD=gcc
 LDFLAGS=-g `cat conf-libs` -o ${TARGET}
 

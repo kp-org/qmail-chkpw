@@ -1,3 +1,5 @@
+20160217: moved to git, see commit messages for changes
+
 20160130: qmail-chkpw 0.2.1
           - added '#include <crypt.h>' for linux
 

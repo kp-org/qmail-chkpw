@@ -1,0 +1,26 @@
+#!/bin/sh
+#********************************************************************************
+# configure script qmail-chkpw
+
+#********************************************************************************
+# check for header files
+CCOPTS=""
+echo -n "Checking for crypt.h ..."
+if [ -f /usr/include/crypt.h ] ; then CCOPTS="$CCOPTS -DHAS_CRYPT_H"
+   else echo -n " not" ; fi
+echo " found!"
+echo "$CCOPTS" > conf-cc
+
+#********************************************************************************
+# Checking for shared libraries
+LIBS=""
+# Linux has a libcrypt, likely BSD systems does not
+echo -n "Checking for libcrypto ..."
+((cc -c -lcrypt -c -o trylib.o trylib.c) >/dev/null 2>&1 && echo " -lcrypt" || exit 0)> crypto.lib
+#((./load trylib -lresolv) >/dev/null 2>&1 && echo "-lresolv" || exit 0)> dns.lib
+[ -s crypto.lib ] || echo -n " not"
+echo " found!"
+rm -f trylib
+
+LIBS="$LIBS"`cat crypto.lib`
+echo "$LIBS" > conf-libs

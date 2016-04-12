@@ -1,0 +1,7 @@
+package
+obsolete
+main.*
+qmail-chkpw
+qmail-chkpw.8
+test_it
+*.patch

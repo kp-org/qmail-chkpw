@@ -10,8 +10,6 @@ MAKEFILE=Makefile
 OBJS=${SRCS:.c=.o}
 
 CC=gcc
-#CFLAGS=-c -lcrypt -O3 #-Wall
-#LD=gcc -lcrypt
 CFLAGS=-c `cat conf-libs` `cat conf-cc` -O3 #-lcrypt -O3 #-Wall
 LD=gcc
 LDFLAGS=-g `cat conf-libs` -o ${TARGET}
@@ -34,9 +32,7 @@ clean:
 
 setup:
 	install ${TARGET} ${BINDIR}
-#	install ${TARGET} `head -1 conf-qmail`/bin
 	chown qmaild ${BINDIR}/${TARGET}
-#	chmod +s ${BINDIR}/${TARGET}
 	mkdir -p ${MANDIR}/man{1,8}
 	cp cmd5checkpw.8 `head -1 conf-man`/man8
 	cp qmail-chkpw.8 `head -1 conf-man`/man1

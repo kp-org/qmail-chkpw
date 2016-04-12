@@ -33,7 +33,7 @@ is invoked with the
 option instead of
 .B subprogram 
 it changes it's behavior. It reads from standard input and prints the
-given input as encrypted value to stdout. Typically this is to encrypt
+given input as encrypted value to stderr. Typically this is to encrypt
 a password.
 .SH FILES
 .IR QMAILHOME/users/smtpauth
@@ -53,12 +53,12 @@ different than your normal system users and make qmail-chkpw suid that user.
 reads the file
 .IR QMAILHOME/users/smtpauth 
 until the first match of a user name. Without a match the authentication fails.
-The user names should be unique, means that a user name can be used for CRAM-MD5
+The user names should be unique, means that a user name can be used either with CRAM-MD5
 .B or
-one of the other two authentication methods.
+with one of the other two authentication methods.
 .SH VERSION
 This documentation is about
 .B qmail-chkpw
-version 0.2.
+version 0.3
 .SH SEE ALSO
 checkpassword(8), cmd5checkpw(8)

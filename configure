@@ -9,6 +9,8 @@ echo -n "Checking for crypt.h ..."
 if [ -f /usr/include/crypt.h ] ; then CCOPTS="$CCOPTS -DHAS_CRYPT_H"
    else echo -n " not" ; fi
 echo " found!"
+
+# put all additional options together for 'CFLAGS'
 echo "$CCOPTS" > conf-cc
 
 #********************************************************************************
@@ -16,11 +18,13 @@ echo "$CCOPTS" > conf-cc
 LIBS=""
 # Linux has a libcrypt, likely BSD systems does not
 echo -n "Checking for libcrypto ..."
-((cc -c -lcrypt -c -o trylib.o trylib.c) >/dev/null 2>&1 && echo " -lcrypt" || exit 0)> crypto.lib
-#((./load trylib -lresolv) >/dev/null 2>&1 && echo "-lresolv" || exit 0)> dns.lib
+((cc -c -lcrypt -c -o trylib.o trylib.c) >/dev/null 2>&1 && \
+  echo " -lcrypt" || exit 0)> crypto.lib
 [ -s crypto.lib ] || echo -n " not"
 echo " found!"
 rm -f trylib
 
+# put all libs together for 'LDFLAGS'
 LIBS="$LIBS"`cat crypto.lib`
 echo "$LIBS" > conf-libs
+#***** end check libraries ******************************************************

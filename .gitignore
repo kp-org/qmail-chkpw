@@ -1,4 +1,3 @@
-package
 obsolete
 main.*
 qmail-chkpw
@@ -9,3 +8,4 @@ conf-libs
 *.bck
 *.patch
 TODO
+*.o

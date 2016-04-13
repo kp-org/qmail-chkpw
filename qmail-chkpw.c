@@ -92,25 +92,26 @@ int main(int argc,char **argv)
 //    strncpy(s,argv[1],1);
 //    if(strncmp(s,"-",1) == 0) { puts("dddd"); }	/* Important: strcmp returns 1 on BSD but 0 on Linux */
 
-    char *pw;
+    char *pw1;
     char *newpw, *cmppw;
 
     newpw = strdup(getpass("   New password: "));
     if(strlen(newpw) < 1) { puts("Empty password!"); _exit(111); }
-// todo: check password (min) lenght
+    /* check password (min/max) lenght */
+    if(strlen(newpw) < 6) { puts("Minimum Password length is 6 characters."); _exit(111); }
+    if(strlen(newpw) > 128) { puts("Maximum password lenght is 128 characters."); _exit(111); }
     cmppw = strdup(getpass("Repeat password: "));
-    if (strcmp(newpw,cmppw) == 0) { pw = doencrypt(newpw,1); } 
+    if (strcmp(newpw,cmppw) == 0) { pw1 = doencrypt(newpw,1); } 
       else { printf("Passwords don't match!\n"); }
-      _exit(0);
+    _exit(0);
   }
 
   /* process the '-r' option (read from stdin) */
   if(strcmp(argv[1],"-r") == 0) {
-    char buf[65];
+    char buf[129];
     char *input;
     int pw;
     int pwlen;
-//printf("bla\n");
 
 	for (;;) {
 	  do
@@ -119,20 +120,20 @@ int main(int argc,char **argv)
       if (pw == -1) _exit(111);
       if (pw == 0) break;
       pwlen += pw;
+      if (pwlen >= sizeof(buf)) _exit(1);
     }
     close(0);
-	input = buf;
 	if (pwlen < 1) _exit(1);
 	input = buf;
 	strchr(input, '\n');
-//printf("In: %s",input);
+//printf("In: %s\n",input);
 //printf("len: %i\n",pwlen);
     input = doencrypt(input,1);
     _exit(0);
   }
 
 /* ********************************************************** */
-  /* check for input on fd3 */
+  /* check for input on fd3 (the real password check)*/
   uplen = 0;
   for (;;) {
     do

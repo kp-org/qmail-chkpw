@@ -11,7 +11,7 @@ OBJS=${SRCS:.c=.o}
 CC=gcc
 CFLAGS=-c `cat conf-libs` `cat conf-cc` -O3   #-Wall
 LD=gcc
-LDFLAGS=-g `cat conf-libs` -o ${TARGET}
+LDFLAGS=-g `cat conf-libs` -lcrypt -o ${TARGET}
 
 default: main man qmail-chkpw
 

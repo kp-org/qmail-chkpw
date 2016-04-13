@@ -6,9 +6,9 @@
 # check for header files
 CCOPTS=""
 echo -n "Checking for crypt.h ..."
-T=$(find /usr/include -name crypt.h -print | head -1)
-if [ -n "$T" ] ; then CCOPTS="$CCOPTS -DHAS_CRYPT_H"
-#if [ -f /usr/include/crypt.h ] ; then CCOPTS="$CCOPTS -DHAS_CRYPT_H"
+#T=$(find /usr/include -name crypt.h -print | head -1)
+#if [ -n "$T" ] ; then CCOPTS="$CCOPTS -DHAS_CRYPT_H"
+if [ -f /usr/include/crypt.h ] ; then CCOPTS="$CCOPTS -DHAS_CRYPT_H"
    else echo -n " not" ; fi
 echo " found!"
 
@@ -20,7 +20,7 @@ echo "$CCOPTS" > conf-cc
 LIBS=""
 # Linux has a libcrypt, likely BSD systems does not
 echo -n "Checking for libcrypto ..."
-((cc -c -lcrypt -c -o trylib.o trylib.c) >/dev/null 2>&1 && \
+((cc -g -lcrypt -c -o trylib.o trylib.c) >/dev/null 2>&1 && \
   echo " -lcrypt" || exit 0)> crypto.lib
 [ -s crypto.lib ] || echo -n " not"
 echo " found!"
@@ -30,3 +30,5 @@ rm -f trylib
 LIBS="$LIBS"`cat crypto.lib`
 echo "$LIBS" > conf-libs
 #***** end check libraries ******************************************************
+
+. ./chkconf

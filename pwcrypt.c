@@ -1,8 +1,6 @@
 /* Based on "GNU libc manual" */
-//#include <stdio.h>
 #include <time.h>
-//#include <unistd.h>
-#ifdef __linux__       /* use crypt.h from glibc */
+#ifdef HAS_CRYPT_H      /* use crypt.h from glibc */
 #include <crypt.h>
 #endif
 
@@ -25,10 +23,10 @@ char *doencrypt(char *usrpw, int s)
     salt[3+i] = seedchars[(seed[i/5] >> (i%5)*6) & 0x3f];
 
   /* Read the user's password and encrypt it. */
-  usrpw = crypt(usrpw, salt);
+  usrpw = (char *)crypt(usrpw, salt);
 
   /* Print the result if nessecary */
-  if(s == 1 ) puts(usrpw);
+  if(s == 1 ) fprintf(stderr,"%s\n",usrpw);    /* pipe */
 
   return (char *)usrpw;		/* 0.2: cast pointer */
 }

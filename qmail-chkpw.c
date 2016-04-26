@@ -14,6 +14,8 @@ int uplen;
 static char hextab[]="0123456789abcdef";
 
 #include "pwcrypt.c"
+#include "pwmknew.c"
+
 char *clearpw;
 
 int doit(const char *testlogin, const char *response, unsigned char *challenge)
@@ -85,16 +87,20 @@ int main(int argc,char **argv)
 
   if (!argv[1]) _exit(2);
 
+  /* process the '-e' option (interactive) */
   if(strcmp(argv[1],"-e") == 0) {
-    char *pw;
-    char *newpw, *cmppw;
-    newpw = strdup(getpass("   New password: "));
-	cmppw = strdup(getpass("Repeat password: "));
-    if (strcmp(newpw,cmppw) == 0) { pw = doencrypt(newpw,1); } 
-     else { printf("Passwords don't match!\n"); }
+    process_e();
     _exit(0);
   }
 
+  /* process the '-r' option (read from stdin) */
+  if(strcmp(argv[1],"-r") == 0) {
+	process_r();
+    _exit(0);
+  }
+
+/* ********************************************************** */
+  /* check for input on fd3 (the real password check)*/
   uplen = 0;
   for (;;) {
     do
@@ -118,11 +124,12 @@ int main(int argc,char **argv)
   clearpw=response; /* save original response unencrypted */
 
   /* some stuff for debug on command line */
+/*
   printf("Input: \n");
   printf("login: %s\n",login);
   printf("resp.: %s\n",response);
   printf("chall: %s\n\n",challenge);
-
+*/
   doencrypt(clearpw,0);		/* encrypt the response */
 
   accepted = doit(login,response,challenge);
@@ -132,6 +139,6 @@ int main(int argc,char **argv)
   for (i = 0;i < sizeof(up);++i) up[i] = 0;
 
   if (accepted)  _exit(1);
-	execvp(argv[1],argv + 1);
-	_exit(111);
+    execvp(argv[1],argv + 1);
+    _exit(111);
 }

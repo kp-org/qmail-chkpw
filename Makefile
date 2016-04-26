@@ -1,4 +1,3 @@
-#
 # makefile for qmail-chkpw (checkpassword tool)
 #
 
@@ -10,30 +9,31 @@ MAKEFILE=Makefile
 OBJS=${SRCS:.c=.o}
 
 CC=gcc
-CFLAGS=-c -lcrypt -O3 #-Wall
-LD=gcc -lcrypt
-LDFLAGS=-g -o ${TARGET}
+#CFLAGS=-c `cat conf-libs` `cat conf-cc` -O3   #-Wall
+CFLAGS=-c `cat conf-cc` -O3   #-Wall
+LD=gcc
+#LDFLAGS=-g `cat conf-libs` -o ${TARGET}
+LDFLAGS=`cat conf-libs` -o ${TARGET}
 
 default: clean main man qmail-chkpw
 
-main: qmail-chkpw.c conf-qmail
+main: configure qmail-chkpw.c conf-qmail
 	sed s}QMAILHOME}"`head -1 conf-qmail`"}g qmail-chkpw.c > main.c
+	./configure
 
 man: qmail-chkpw.man conf-qmail
 	sed s}QMAILHOME}"`head -1 conf-qmail`"}g qmail-chkpw.man > qmail-chkpw.8
 
 qmail-chkpw: main.c ${OBJS}
-	${LD} ${LDFLAGS} ${OBJS} 
+	${LD} ${LDFLAGS} ${OBJS}
 
 clean:
 	rm -f ${OBJS} ${CODEOBJS} ${GENOBJS} ${TARGET} *~ core main.c \
-	  	  qmail-chkpw.8
+	qmail-chkpw.8 crypto.lib conf-cc conf-libs trylib.o trylib
 
 setup:
 	install ${TARGET} ${BINDIR}
-#	install ${TARGET} `head -1 conf-qmail`/bin
 	chown qmaild ${BINDIR}/${TARGET}
-#	chmod +s ${BINDIR}/${TARGET}
 	mkdir -p ${MANDIR}/man{1,8}
 	cp cmd5checkpw.8 `head -1 conf-man`/man8
 	cp qmail-chkpw.8 `head -1 conf-man`/man1

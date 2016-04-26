@@ -1,0 +1,11 @@
+obsolete
+main.*
+qmail-chkpw
+qmail-chkpw.8
+testit.sh
+conf-cc
+conf-libs
+*.bck
+*.patch
+TODO
+*.o

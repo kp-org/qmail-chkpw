@@ -1,0 +1,4 @@
+qmaild.qmail
+
+Set this to the qmail daemon user and the qmail group without
+file access. 'qmaild.qmail' is the usually default.

@@ -1,0 +1,40 @@
+#!/bin/sh
+#********************************************************************************
+# Check values of some conf-* files
+#
+
+# check if '*qmail' is installed
+echo -n "Checking for 'qmail' home ..."
+ls `head -1 conf-qmail` >>/dev/null 2>&1
+if [ $? -ne 0 ] ; then
+  echo -e "\e[37;1m"
+  echo    "Couldn't find your \"qmail\" home directory. Either there is nothing"
+  echo -e "installed or the path in \"conf-qmail\" is wrong. \e[31;1mAborting!"
+  echo -e "\e[0m"
+  exit 1
+ else
+  echo " found "`head -1 conf-qmail`"!"
+fi
+
+# check user/group against 'conf-usrgrp'
+echo -n "Checking for 'qmail' users and groups ..."
+UG=$(head -1 conf-usrgrp)
+U=$(echo $UG | cut -d. -f1)
+G=$(echo $UG | cut -d. -f2)
+
+id -u $U >>/dev/null 2>&1
+if [ $? -ne 0 ] ; then
+  echo -e "\e[37;1m"
+  echo -e "User id error! The user \"$U\" from \"conf-usrgrp\" couldn't be found!"
+  echo -e " \e[31;1mAborting!\e[0m"
+  exit 1
+fi
+
+T=`getent group $G | cut -d: -f1`
+if [ ! $T ] || [ $G != $T ] ; then
+  echo -e "\e[37;1m"
+  echo -e "Group id error! The group \"$G\" from \"conf-usrgrp\" isn't correct!"
+  echo -e " \e[31;1mAborting!\e[0m"
+  exit 1
+fi
+echo " found!"

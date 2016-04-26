@@ -14,6 +14,8 @@ int uplen;
 static char hextab[]="0123456789abcdef";
 
 #include "pwcrypt.c"
+#include "pwmknew.c"
+
 char *clearpw;
 
 int doit(const char *testlogin, const char *response, unsigned char *challenge)
@@ -85,50 +87,15 @@ int main(int argc,char **argv)
 
   if (!argv[1]) _exit(2);
 
-  /* process the '-e' option */
+  /* process the '-e' option (interactive) */
   if(strcmp(argv[1],"-e") == 0) {
-// Debug:
-//    char s[1];
-//    strncpy(s,argv[1],1);
-//    if(strncmp(s,"-",1) == 0) { puts("dddd"); }	/* Important: strcmp returns 1 on BSD but 0 on Linux */
-
-    char *pw1;
-    char *newpw, *cmppw;
-
-    newpw = strdup(getpass("   New password: "));
-    if(strlen(newpw) < 1) { puts("Empty password!"); _exit(111); }
-    /* check password (min/max) lenght */
-    if(strlen(newpw) < 6) { puts("Minimum Password length is 6 characters."); _exit(111); }
-    if(strlen(newpw) > 128) { puts("Maximum password lenght is 128 characters."); _exit(111); }
-    cmppw = strdup(getpass("Repeat password: "));
-    if (strcmp(newpw,cmppw) == 0) { pw1 = doencrypt(newpw,1); } 
-      else { printf("Passwords don't match!\n"); }
+    process_e();
     _exit(0);
   }
 
   /* process the '-r' option (read from stdin) */
   if(strcmp(argv[1],"-r") == 0) {
-    char buf[129];
-    char *input;
-    int pw;
-    int pwlen;
-
-	for (;;) {
-	  do
-        pw = read(0,buf + pwlen,sizeof(buf) - pwlen);
-      while (( pw == -1)  && (errno == EINTR));
-      if (pw == -1) _exit(111);
-      if (pw == 0) break;
-      pwlen += pw;
-      if (pwlen >= sizeof(buf)) _exit(1);
-    }
-    close(0);
-	if (pwlen < 1) _exit(1);
-	input = buf;
-	strchr(input, '\n');
-//printf("In: %s\n",input);
-//printf("len: %i\n",pwlen);
-    input = doencrypt(input,1);
+	process_r();
     _exit(0);
   }
 

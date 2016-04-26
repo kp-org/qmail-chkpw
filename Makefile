@@ -9,13 +9,15 @@ MAKEFILE=Makefile
 OBJS=${SRCS:.c=.o}
 
 CC=gcc
-CFLAGS=-c `cat conf-libs` `cat conf-cc` -O3   #-Wall
+#CFLAGS=-c `cat conf-libs` `cat conf-cc` -O3   #-Wall
+CFLAGS=-c `cat conf-cc` -O3   #-Wall
 LD=gcc
-LDFLAGS=-g `cat conf-libs` -lcrypt -o ${TARGET}
+#LDFLAGS=-g `cat conf-libs` -o ${TARGET}
+LDFLAGS=`cat conf-libs` -o ${TARGET}
 
-default: main man qmail-chkpw
+default: clean main man qmail-chkpw
 
-main: qmail-chkpw.c conf-qmail configure
+main: configure qmail-chkpw.c conf-qmail
 	sed s}QMAILHOME}"`head -1 conf-qmail`"}g qmail-chkpw.c > main.c
 	./configure
 
@@ -27,7 +29,7 @@ qmail-chkpw: main.c ${OBJS}
 
 clean:
 	rm -f ${OBJS} ${CODEOBJS} ${GENOBJS} ${TARGET} *~ core main.c \
-	qmail-chkpw.8 crypto.lib conf-cc conf-libs trylib.o
+	qmail-chkpw.8 crypto.lib conf-cc conf-libs trylib.o trylib
 
 setup:
 	install ${TARGET} ${BINDIR}

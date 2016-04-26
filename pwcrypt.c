@@ -27,6 +27,6 @@ char *doencrypt(char *usrpw, int s)
 
   /* Print the result if nessecary */
   if(s == 1 ) fprintf(stderr,"%s\n",usrpw);    /* pipe */
-  
+
   return (char *)usrpw;		/* 0.2: cast pointer */
 }

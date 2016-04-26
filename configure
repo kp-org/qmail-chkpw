@@ -18,9 +18,13 @@ echo "$CCOPTS" > conf-cc
 #********************************************************************************
 # Checking for shared libraries
 LIBS=""
+cc -c -o trylib.o trylib.c
 # Linux has a libcrypt, likely BSD systems does not
-echo -n "Checking for libcrypto ..."
-((cc -g -lcrypt -c -o trylib.o trylib.c) >/dev/null 2>&1 && \
+echo -n "Checking for libcrypt ..."
+# OpenBSD 5.8 (only):
+#((cc -g -lcrypt -c -o trylib.o trylib.c) >/dev/null 2>&1 && \
+#others:
+((cc -lcrypt -s -o trylib trylib.o) >/dev/null 2>&1 && \
   echo " -lcrypt" || exit 0)> crypto.lib
 [ -s crypto.lib ] || echo -n " not"
 echo " found!"
@@ -31,4 +35,4 @@ LIBS="$LIBS"`cat crypto.lib`
 echo "$LIBS" > conf-libs
 #***** end check libraries ******************************************************
 
-. ./chkconf
+#. ./chkconf

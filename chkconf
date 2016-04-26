@@ -25,16 +25,16 @@ G=$(echo $UG | cut -d. -f2)
 id -u $U >>/dev/null 2>&1
 if [ $? -ne 0 ] ; then
   echo -e "\e[37;1m"
-  echo -e "User id error! The qmail daemon user couldn't be found! \e[31;1mAborting!"
-  echo -e "\e[0m"
+  echo -e "User id error! The user \"$U\" from \"conf-usrgrp\" couldn't be found!"
+  echo -e " \e[31;1mAborting!\e[0m"
   exit 1
-fi 
+fi
 
-T=$(id -nG $U) >>/dev/null 2>&1
-if [ $G != $T ] ; then
+T=`getent group $G | cut -d: -f1`
+if [ ! $T ] || [ $G != $T ] ; then
   echo -e "\e[37;1m"
-  echo -e "Group id error! The group \"$G\" from \"conf-usrgrp\" isn't correct! \e[31;1mAborting!"
-  echo -e "\e[0m"
+  echo -e "Group id error! The group \"$G\" from \"conf-usrgrp\" isn't correct!"
+  echo -e " \e[31;1mAborting!\e[0m"
   exit 1
 fi
 echo " found!"
